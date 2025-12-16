@@ -4,12 +4,12 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.template.context_processors import request
+from django.contrib.auth import get_user_model
 from rest_framework import permissions, status, viewsets
-from SocialMedia_API.users.serializers import UserSerializer
-from SocialMedia_API.social.models import Post
-from SocialMedia_API.users.models import Follow
+from .serializers import UserSerializer
+from .models import Follow
 
-
+User = get_user_model()
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

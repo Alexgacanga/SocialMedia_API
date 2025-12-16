@@ -3,7 +3,7 @@ from django.template.context_processors import request
 from rest_framework import permissions
 
 
-class IsAuthorOrReadOnly(permissions.Permission):
+class IsAuthorOrReadOnly(permissions.BasePermission):
     def has_permissions_or_not(self, request, views, obj):
         if request.method in permissions.SAFE_METHODS:
             return True

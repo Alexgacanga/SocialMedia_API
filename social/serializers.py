@@ -3,7 +3,7 @@ from django.forms import fields
 from rest_framework import serializers
 from .models import Post
 
-class PostSerializers(serializers.Serializer):
+class PostSerializer(serializers.Serializer):
     author = serializers.ReadOnlyField(source = 'author.username')
 
     class Meta:

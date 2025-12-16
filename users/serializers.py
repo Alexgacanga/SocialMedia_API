@@ -1,13 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.forms import fields
 from rest_framework.fields import ReadOnlyField, SlugField
-from django.contrib.auth.models import User
+from .models import User
 from django.contrib.auth.decorators import user_passes_test
 from rest_framework import serializers
-from SocialMedia_API.users.models import Follow
+from .models import Follow
 
 
-User = get_user_model
+User = get_user_model()
 
 class UserSerializer(serializers.Serializer):
     password = serializers.CharField(write_only= True)
@@ -28,7 +28,6 @@ class UserSerializer(serializers.Serializer):
     def create(self, validated_data):
         user = User.objects.create_user(
             username = validated_data['username'],
-            bio = validated_data['bio'],
             email = validated_data['email'],
             password= validated_data['password'],
             profile_picture = validated_data.get('profile_picture', None),
@@ -36,11 +35,11 @@ class UserSerializer(serializers.Serializer):
         )
         return user
 
-class FollowSerializer(serializers.Serializer):
+class FollowSerializer(serializers.ModelSerializer):
     follower = serializers.ReadOnlyField(source = 'follower.username')
     following = serializers.SlugRelatedField(
         slug_field = 'username',
-        query_set = User.objects.all
+        queryset = User.objects.all()
     )
     class Meta:
         model = Follow
